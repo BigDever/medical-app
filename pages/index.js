@@ -1,13 +1,34 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import {AppBar, Box, Button, Container, Stack, Toolbar, Typography} from "@mui/material";
+import Link from "next/link";
 
-const isMedic = true;
+const isMedic = false;
 
-let navItems = ['Главная', 'Заполнить анкету', 'Диагнозы', 'Войти'];
+let navItems = [
+    {
+        name: 'Главная',
+        href: '/',
+    },
+    {
+        name: 'Заполнить анкету',
+        href: '/form',
+    },
+    {
+        name: 'Диагнозы',
+        href: '/diagnosis',
+    },
+    {
+        name: 'Войти',
+        href: '/sign',
+    }
+];
 
 if (isMedic) {
-    navItems[1] = 'Анкеты пациентов';
+    navItems[1] = {
+        name: 'Анкеты пациентов',
+        href: '/list'
+    };
     navItems.splice(2, 1);
 }
 
@@ -33,8 +54,8 @@ export default function Home() {
                     </Typography>
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         {navItems.map((item) => (
-                            <Button key={item} sx={{ color: '#fff' }}>
-                                {item}
+                            <Button key={item.name} sx={{ color: '#fff' }}>
+                                <Link href={item.href}>{item.name}</Link>
                             </Button>
                         ))}
                     </Box>
@@ -68,7 +89,9 @@ export default function Home() {
                         spacing={2}
                         justifyContent="center"
                     >
-                        <Button variant="contained">Войти</Button>
+                        <Button size="large" variant="contained">
+                            <Link href={'/sign'}>Войти</Link>
+                        </Button>
                     </Stack>
                 </Container>
             </Box>
