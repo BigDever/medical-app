@@ -1,0 +1,6 @@
+.link {
+    color: #fff !important;
+}
+.active {
+    opacity: .5;
+}

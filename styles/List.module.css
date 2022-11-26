@@ -1,0 +1,6 @@
+.listItem {
+    cursor: pointer;
+    border: 1px #ccc solid;
+    margin-top: 10px;
+    border-radius: 10px;
+}

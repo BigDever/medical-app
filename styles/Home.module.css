@@ -1,4 +1,35 @@
-.container {
-  padding: 0 ;
+.faq {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
 }
 
+.faqItem {
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 250px;
+    width: 300px;
+}
+
+.faqIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+.faqDesc {
+    font-size: 20px;
+    text-align: center;
+}
+
+.faqArrow {
+    font-size: 50px;
+    margin-left: 20px;
+    margin-right: 20px;
+}

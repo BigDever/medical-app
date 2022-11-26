@@ -1,67 +1,24 @@
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-import {AppBar, Box, Button, Container, Stack, Toolbar, Typography} from "@mui/material";
+import {Box, Button, Container, Paper, Stack, Typography} from "@mui/material";
 import Link from "next/link";
-
-const isMedic = false;
-
-let navItems = [
-    {
-        name: 'Главная',
-        href: '/',
-    },
-    {
-        name: 'Заполнить анкету',
-        href: '/form',
-    },
-    {
-        name: 'Диагнозы',
-        href: '/diagnosis',
-    },
-    {
-        name: 'Войти',
-        href: '/sign',
-    }
-];
-
-if (isMedic) {
-    navItems[1] = {
-        name: 'Анкеты пациентов',
-        href: '/list'
-    };
-    navItems.splice(2, 1);
-}
+import {Header} from "../components/Header";
+import styles from '../styles/Home.module.css';
+import LoginIcon from '@mui/icons-material/Login';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 
 export default function Home() {
 
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>Кож-помощь</title>
         <meta name="description" content="Определим ваше заболевание без похода к врачу" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-        <Box sx={{ display: 'flex' }}>
-            <AppBar component="nav" position="relative">
-                <Toolbar>
-                    <Typography
-                        variant="h6"
-                        component="div"
-                        sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-                    >
-                        Кож-помощь
-                    </Typography>
-                    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                        {navItems.map((item) => (
-                            <Button key={item.name} sx={{ color: '#fff' }}>
-                                <Link href={item.href}>{item.name}</Link>
-                            </Button>
-                        ))}
-                    </Box>
-                </Toolbar>
-            </AppBar>
-        </Box>
+        <Header />
         <main>
             <Box
                 sx={{
@@ -70,7 +27,7 @@ export default function Home() {
                     pb: 6,
                 }}
             >
-                <Container maxWidth="md">
+                <Container maxWidth="lg">
                     <Typography
                         component="h1"
                         variant="h2"
@@ -83,6 +40,38 @@ export default function Home() {
                     <Typography variant="h5" align="center" color="text.secondary" paragraph>
                         Определим ваше заболевание без похода к врачу
                     </Typography>
+                    <div className={styles.faq}>
+                        <Paper className={styles.faqItem}>
+                            <div className={styles.faqIcon}>
+                                <LoginIcon fontSize='inherit' />
+                            </div>
+                            <div className={styles.faqDesc}>
+                                <p>Войдите по номеру телефона</p>
+                            </div>
+                        </Paper>
+                        <div className={styles.faqArrow}>
+                            <ArrowForwardIcon fontSize='inherit' />
+                        </div>
+                        <Paper className={styles.faqItem}>
+                            <div className={styles.faqIcon}>
+                                <FeaturedPlayListIcon fontSize='inherit' />
+                            </div>
+                            <div className={styles.faqDesc}>
+                                <p>Выберите имеющиеся симптомы</p>
+                            </div>
+                        </Paper>
+                        <div className={styles.faqArrow}>
+                            <ArrowForwardIcon fontSize='inherit' />
+                        </div>
+                        <Paper className={styles.faqItem}>
+                            <div className={styles.faqIcon}>
+                                <AssignmentTurnedInIcon fontSize='inherit' />
+                            </div>
+                            <div className={styles.faqDesc}>
+                                <p>Получите предварительный диагноз</p>
+                            </div>
+                        </Paper>
+                    </div>
                     <Stack
                         sx={{ pt: 4 }}
                         direction="row"
@@ -96,6 +85,6 @@ export default function Home() {
                 </Container>
             </Box>
         </main>
-    </div>
+    </>
   )
 }
