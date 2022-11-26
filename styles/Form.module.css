@@ -1,0 +1,8 @@
+.form {
+    width: fit-content;
+    position: relative;
+    margin: 0 auto;
+}
+.inputWrapper {
+    margin-top: 15px;
+}
