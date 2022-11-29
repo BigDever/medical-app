@@ -7,7 +7,7 @@ export default function List () {
     return (
         <>
             <Head>
-                <title>Кож-помощь</title>
+                <title>СППР по диагностике дерматологических заболеваний</title>
                 <meta name="description" content="Определим ваше заболевание без похода к врачу" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>

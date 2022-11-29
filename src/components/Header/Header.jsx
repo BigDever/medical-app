@@ -10,7 +10,7 @@ export const Header = ({navItems}) => (
                     component="div"
                     sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                 >
-                    Кож-помощь
+                    СППР по диагностике дерматологических заболеваний
                 </Typography>
                 <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                     {navItems.map((item) => (

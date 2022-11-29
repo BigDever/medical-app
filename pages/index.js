@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Кож-помощь</title>
+        <title>СППР по диагностике дерматологических заболеваний</title>
         <meta name="description" content="Определим ваше заболевание без похода к врачу" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -35,7 +35,7 @@ export default function Home() {
                         color="text.primary"
                         gutterBottom
                     >
-                        Кож-помощь
+                        СППР по диагностике дерматологических заболеваний
                     </Typography>
                     <Typography variant="h5" align="center" color="text.secondary" paragraph>
                         Определим ваше заболевание без похода к врачу
