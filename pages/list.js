@@ -16,7 +16,7 @@ export default function List () {
                 <ListMUI sx={{ width: '100%', maxWidth: 1200, bgcolor: 'background.paper' }}>
                     <ListItem alignItems="flex-start" className={styles.listItem}>
                         <ListItemText
-                            primary="Олег Царев"
+                            primary="Елена Волкова"
                             secondary={
                                 <>
                                     <Typography
@@ -25,16 +25,16 @@ export default function List () {
                                         variant="body2"
                                         color="text.primary"
                                     >
-                                        Возраст: 25
+                                        Возраст: 32
                                     </Typography>
-                                    {" Диагноза нет"}
+                                    {"Аллергическая экзема"}
                                 </>
                             }
                         />
                     </ListItem>
                     <ListItem alignItems="flex-start" className={styles.listItem}>
                         <ListItemText
-                            primary="Анастасия Царева"
+                            primary="Иван Зиновьев"
                             secondary={
                                 <>
                                     <Typography
@@ -43,9 +43,9 @@ export default function List () {
                                         variant="body2"
                                         color="text.primary"
                                     >
-                                        Возраст: 23
+                                        Возраст: 19
                                     </Typography>
-                                    {" Диагноза нет"}
+                                    {"Лучевой дерматит"}
                                 </>
                             }
                         />
