@@ -27,7 +27,7 @@ export default function List () {
                                     >
                                         Возраст: 32
                                     </Typography>
-                                    {"Аллергическая экзема"}
+                                    {" Аллергическая экзема"}
                                 </>
                             }
                         />
@@ -45,7 +45,7 @@ export default function List () {
                                     >
                                         Возраст: 19
                                     </Typography>
-                                    {"Лучевой дерматит"}
+                                    {" Лучевой дерматит"}
                                 </>
                             }
                         />
