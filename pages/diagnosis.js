@@ -50,7 +50,7 @@ export default function Diagnosis () {
                                 <TableCell component="th" scope="row">
                                     Лишай
                                 </TableCell>
-                                <TableCell align="right">30%</TableCell>
+                                <TableCell align="right">35%</TableCell>
                             </TableRow>
                             <TableRow
                                 key='3'
@@ -59,7 +59,7 @@ export default function Diagnosis () {
                                 <TableCell component="th" scope="row">
                                     Грибовидный микоз
                                 </TableCell>
-                                <TableCell align="right">10%</TableCell>
+                                <TableCell align="right">15%</TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
