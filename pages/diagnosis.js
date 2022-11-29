@@ -39,7 +39,7 @@ export default function Diagnosis () {
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <TableCell component="th" scope="row">
-                                        Болезнь 1
+                                        Атопический дерматит
                                     </TableCell>
                                     <TableCell align="right">50%</TableCell>
                                 </TableRow>
@@ -48,7 +48,7 @@ export default function Diagnosis () {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row">
-                                    Болезнь 2
+                                    Лишай
                                 </TableCell>
                                 <TableCell align="right">30%</TableCell>
                             </TableRow>
@@ -57,7 +57,7 @@ export default function Diagnosis () {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row">
-                                    Болезнь 3
+                                    Грибовидный микоз
                                 </TableCell>
                                 <TableCell align="right">10%</TableCell>
                             </TableRow>
