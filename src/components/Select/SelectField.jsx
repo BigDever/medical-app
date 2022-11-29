@@ -16,8 +16,8 @@ export const SelectField = ({ options, value, handleChange }) => {
     )
 
     return (
-        <div className={styles.inputWrapper}>
-            <FormControl fullWidth>
+        <div>
+            <FormControl className={styles.inputWrapper}>
                 <InputLabel id="demo-simple-select-label">Год рождения</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
