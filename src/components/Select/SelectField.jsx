@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import styles from "../../../styles/Form.module.css";
 
-export const SelectField = ({ options, value, handleChange }) => {
+export const SelectField = ({ options, value, handleChange, label }) => {
     const optionsList = useMemo(
         () => (
             options.map(item => <MenuItem value={item}>{item}</MenuItem>)
@@ -18,12 +18,12 @@ export const SelectField = ({ options, value, handleChange }) => {
     return (
         <div>
             <FormControl className={styles.inputWrapper}>
-                <InputLabel id="demo-simple-select-label">Год рождения</InputLabel>
+                <InputLabel id="demo-simple-select-label">{label}</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={value}
-                    label="Год рождения"
+                    label={label}
                     onChange={(e) => handleChange(e.target.value)}
                 >
                     {optionsList}

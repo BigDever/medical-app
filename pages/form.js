@@ -4,19 +4,35 @@ import styles from '../styles/Form.module.css'
 import { InputField } from "../src/components/Input";
 import { SelectField } from "../src/components/Select";
 import {useState} from "react";
-import {Checkbox, FormControl, FormControlLabel, FormGroup, Paper} from "@mui/material";
-import Image from 'next/image'
+import {Checkbox, FormControl, FormControlLabel, FormGroup, IconButton, Paper} from "@mui/material";
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 
-const rashArray = [
-    "пятно", "папула", "волдырь", "бугорок", "узел",
-    "пузырь", "гнойничок", "чешуйка", "струп", "экскориация",
-    "эрозия", "трещина", "язва", "рубец", "лихенификация", "кератоз",
-    "дерматосклероз", "атрофодермия", "атрофия", "пойкилодермия", "анетодермия"
+export const rashArray = [
+    "Эритема", "Шелушение", "Определенные границы", "Зуд", "Феномен Кебнера",
+    "Полигональные (ороговевшие) папулы", "Фолликулярные папулы", "Поражение слизистой оболочки рта", "Высыпания на коленях и локтях",
+        "Поражение зоны роста волос"
 ]
+
+const rashImages = ["Определенные границы","Полигональные (ороговевшие) папулы", "Феномен Кебнера", "Фолликулярные папулы", "Эритема"]
 
 export default function Form() {
     const [years] = useState([1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997])
+    const [simptomsValues] = useState(['Нет', 'Слабо выражено', 'Выражено', 'Сильно выражено'])
     const [year, setYear] = useState(null)
+    const [simptom, setSimptom] = useState(rashArray.reduce((acc, item) => {
+        acc[item] = null
+        return acc
+    }, {}))
+    const [familyValues] = useState(['Да', 'Нет'])
+    const [family, setFamily] = useState(null)
+
+    const handleChange = (label, value) => {
+        setSimptom(prev => ({
+            ...prev,
+            [label]: value,
+        }))
+    }
+
     return (
         <>
             <Head>
@@ -29,37 +45,55 @@ export default function Form() {
             <div className={styles.form}>
                 <div className={styles.paperWrapper}>
                     <Paper elevation={8} >
-                        Данные
-                        <div className={styles.formSection}>
-                            <InputField label="Имя" required helperText="Введите свое имя на Русском"/>
-                            <InputField label="Фамилия" required helperText="Введите свою фамилию на Русском"/>
-                            <SelectField options={years} value={year} handleChange={setYear}/>
-                            <FormControl style={{display: 'block'}} className={styles.inputWrapper}>
-                                <FormControlLabel control={<Checkbox />} label="Муж" />
-                                <FormControlLabel control={<Checkbox />} label="Жен" />
-                            </FormControl>
+                        <div style={{padding: 20}}>
+                            <h2 style={{textAlign: 'center', margin: 0}}>Данные</h2>
+                            <div className={styles.formSection}>
+                                <InputField label="Имя" required helperText="Введите свое имя на Русском"/>
+                                <InputField label="Фамилия" required helperText="Введите свою фамилию на Русском"/>
+                                <SelectField options={years} value={year} handleChange={setYear} label='Год рождения'/>
+                                <FormControl style={{display: 'block'}} className={styles.inputWrapper}>
+                                    <FormControlLabel control={<Checkbox />} label="Муж" />
+                                    <FormControlLabel control={<Checkbox />} label="Жен" />
+                                </FormControl>
+                            </div>
                         </div>
                     </Paper>
                 </div>
 
                 <div className={styles.paperWrapper}>
                     <Paper elevation={8} >
-                        Тип сыпи на коже
+                        <h2 style={{textAlign: 'center', margin: 0, paddingTop: 20}}>Симптомы</h2>
                         <div className={styles.formSection}>
-                            {rashArray.map(item => (
-                                    <div>
-                                        <div style={{
-                                            width: 200,
-                                            height: 200,
-                                            backgroundImage: `url(/rush/${item}.jpg)`,
-                                            backgroundRepeat: "no-repeat",
-                                            backgroundPosition: "center",
-                                            backgroundSize: "cover"
-                                        }}></div>
-                                        <FormControlLabel control={<Checkbox />} label={item} />
-                                    </div>
-                                )
-                            )}
+                            <div>
+                                {
+                                    rashArray.map(item => (
+                                        <div style={{display: 'flex', alignItems: 'center', marginTop: 15}}>
+                                            <SelectField
+                                                options={simptomsValues}
+                                                value={simptom[item]}
+                                                label={item}
+                                                handleChange={(value) => handleChange(item, value)}
+                                            />
+                                            {rashImages.includes(item) &&
+                                                <div className={styles.question} style={{display: 'flex', alignItems: 'center'}}>
+                                                    <IconButton aria-label="delete" size="large">
+                                                        <QuestionMarkIcon />
+                                                    </IconButton>
+                                                    <img src={`/rush/${item}.jpg`} alt=""/>
+                                                </div>
+                                            }
+                                        </div>
+                                    )
+                                )}
+                                <div style={{marginTop: 15}}>
+                                    <SelectField
+                                        options={familyValues}
+                                        value={family}
+                                        label="Имеются заболевания у членов семьи"
+                                        handleChange={setFamily}
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </Paper>
                 </div>
