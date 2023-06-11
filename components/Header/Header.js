@@ -2,39 +2,75 @@ import {AppBar, Box, Button, Toolbar, Typography} from "@mui/material";
 import styles from './Header.module.css';
 import Link from "next/link";
 import {useRouter} from "next/router";
+import {firebase} from "../../firebase/clientApp";
+import {useEffect, useState} from "react";
+//
+// const isMedic = false;
+//
+// if (isMedic) {
+//     navItems[1] = {
+//         name: 'Анкеты пациентов',
+//         href: '/list'
+//     };
+//     navItems.splice(2, 1);
+// {
+// name: 'Войти',
+// href: '/auth',
+// }
+// }
 
-const isMedic = false;
-
-let navItems = [
-    {
-        name: 'Главная',
-        href: '/',
-    },
-    {
-        name: 'Заполнить анкету',
-        href: '/form',
-    },
-    {
-        name: 'Диагнозы',
-        href: '/diagnosis',
-    },
-    {
-        name: 'Войти',
-        href: '/sign',
-    }
-];
-
-if (isMedic) {
-    navItems[1] = {
-        name: 'Анкеты пациентов',
-        href: '/list'
-    };
-    navItems.splice(2, 1);
-}
 
 export const Header = () => {
-
+    const [navItems, setNavItems] = useState()
     const router = useRouter()
+
+    useEffect(() => {
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                setNavItems(
+                    [
+                        {
+                            name: 'Главная',
+                            href: '/',
+                        },
+                        {
+                            name: 'Заполнить анкету',
+                            href: '/form',
+                        },
+                        {
+                            name: 'Диагнозы',
+                            href: '/diagnosis',
+                        },
+                        {
+                            name: 'Мой кабинет',
+                            href: '/lk',
+                        },
+                    ]
+                )
+            } else {
+                setNavItems(
+                    [
+                        {
+                            name: 'Главная',
+                            href: '/',
+                        },
+                        {
+                            name: 'Заполнить анкету',
+                            href: '/form',
+                        },
+                        {
+                            name: 'Диагнозы',
+                            href: '/diagnosis',
+                        },
+                        {
+                            name: 'Войти',
+                            href: '/auth',
+                        }
+                    ]
+                )
+            }
+        });
+    }, [])
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -48,7 +84,7 @@ export const Header = () => {
                         СППР по диагностике дерматологических заболеваний
                     </Typography>
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                        {navItems.map((item) => {
+                        {(navItems || []).map((item) => {
                             const isActive = item.href === router.asPath;
                             return (
                                 <Button disabled={isActive} className={`${styles.link} ${isActive ? styles.active : ''}`} key={item.name}

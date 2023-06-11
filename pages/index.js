@@ -78,8 +78,8 @@ export default function Home() {
                         spacing={2}
                         justifyContent="center"
                     >
-                        <Button size="large" variant="contained">
-                            <Link href={'/sign'}>Войти</Link>
+                        <Button  size="large" variant="contained">
+                            <Link href={'/auth'}>Войти</Link>
                         </Button>
                     </Stack>
                 </Container>
