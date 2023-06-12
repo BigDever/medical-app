@@ -10,7 +10,7 @@ import styles from "../../../styles/Form.module.css";
 export const SelectField = ({ options, value, handleChange, label }) => {
     const optionsList = useMemo(
         () => (
-            options.map(item => <MenuItem value={item}>{item}</MenuItem>)
+            options.map(item => <MenuItem value={item}>{item.name}</MenuItem>)
         ),
         [options]
     )

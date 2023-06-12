@@ -38,10 +38,6 @@ export const Header = () => {
                             href: '/form',
                         },
                         {
-                            name: 'Диагнозы',
-                            href: '/diagnosis',
-                        },
-                        {
                             name: 'Мой кабинет',
                             href: '/lk',
                         },
@@ -57,10 +53,6 @@ export const Header = () => {
                         {
                             name: 'Заполнить анкету',
                             href: '/form',
-                        },
-                        {
-                            name: 'Диагнозы',
-                            href: '/diagnosis',
                         },
                         {
                             name: 'Войти',

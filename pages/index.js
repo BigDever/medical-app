@@ -7,8 +7,36 @@ import LoginIcon from '@mui/icons-material/Login';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import {getCookie} from "cookies-next";
+import {useEffect, useMemo, useState} from "react";
 
 export default function Home() {
+    const [phone, setPhone] = useState('')
+    const [isMedik, setIsMedic] = useState(false)
+    useEffect(() => {
+        setPhone(getCookie('phoneUser'))
+        setIsMedic(getCookie('isMedic'))
+    }, [])
+
+    const renderButton = useMemo(() => {
+        if(!isMedik && phone) {
+            return (
+                <Button  size="large" variant="contained">
+                    <Link href={'/form'}>Заполнить анкету</Link>
+                </Button>
+            )
+        }
+        else{
+            if(isMedik && phone) {
+                return <></>
+            }
+        }
+        return (
+            <Button  size="large" variant="contained">
+                <Link href={'/auth'}>Войти</Link>
+            </Button>
+        )
+    }, [isMedik, phone])
 
   return (
     <>
@@ -78,9 +106,9 @@ export default function Home() {
                         spacing={2}
                         justifyContent="center"
                     >
-                        <Button  size="large" variant="contained">
-                            <Link href={'/auth'}>Войти</Link>
-                        </Button>
+                        {
+                            renderButton
+                        }
                     </Stack>
                 </Container>
             </Box>

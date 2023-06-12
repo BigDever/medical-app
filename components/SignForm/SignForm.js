@@ -4,14 +4,13 @@ import {Avatar, Box, Button, Container, CssBaseline, TextField, Typography} from
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {auth, firebase} from "../../firebase/clientApp";
 import { setCookie } from 'cookies-next';
-import { getAuth, RecaptchaVerifier, signInWithPhoneNumber  } from "firebase/auth";
+import {db} from "../../firebase/clientApp";
 
 export const SignForm = ({getSMS}) => {
     const router = useRouter()
     const [phoneSended, setPhoneSended] = useState(false);
     const [phone, setPhone] = useState('')
     const [code, setCode] = useState('')
-    const [reCaptcha, setReCaptcha] = useState()
 
 
     const handlePhoneChange = (e) => {
@@ -21,13 +20,27 @@ export const SignForm = ({getSMS}) => {
     const handleCodeChange = (e) => {
         setCode(e.target.value)
     }
-    setCookie('phoneUser', '+79509191231')
+    //setCookie('phoneUser', '+79509191231')
     const handleClick = () => {
         window.confirmationResult.confirm(code).then(result => {
             console.log(result)
+            db.collection('phones').get().then((response) => {
+                const phones = []
+                response.docs.forEach(item => phones.push(item.data().phone1))
 
-            //setCookie('phoneUser', result.user.phoneNumber)
-            router.push('/form')
+                if (phones.includes(result.user.phoneNumber)) {
+                    setCookie('phoneUser', result.user.phoneNumber)
+                    setCookie('isMedic', true)
+                    router.push('/')
+                    return
+                }
+                setCookie('phoneUser', result.user.phoneNumber)
+                setCookie('isMedic', false)
+                router.push('/form')
+                return
+            })
+
+
         }).catch(e => console.log(e))
     }
 

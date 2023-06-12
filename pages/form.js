@@ -4,33 +4,129 @@ import styles from '../styles/Form.module.css'
 import { InputField } from "../src/components/Input";
 import { SelectField } from "../src/components/Select";
 import {useState} from "react";
-import {Checkbox, FormControl, FormControlLabel, FormGroup, IconButton, Paper} from "@mui/material";
+import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, IconButton, Paper} from "@mui/material";
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import {db} from "../firebase/clientApp";
+import {getDiagnosisApi} from "../src/api/API";
+import {useRouter} from "next/router";
+import {getCookie} from "cookies-next";
 
-export const rashArray = [
-    "Эритема", "Шелушение", "Определенные границы", "Зуд", "Феномен Кебнера",
-    "Полигональные (ороговевшие) папулы", "Фолликулярные папулы", "Поражение слизистой оболочки рта", "Высыпания на коленях и локтях",
-        "Поражение зоны роста волос"
+const rashArray = [
+    {
+        id: 'erythema',
+        title: 'Эритема',
+        value: null
+    },
+    {
+        id: 'scaling',
+        title: 'Шелушение',
+        value: null
+    },
+    {
+        id: 'definite_borders',
+        title: 'Определенные границы',
+        value: null
+    },
+    {
+        id: 'itching',
+        title: 'Зуд',
+        value: null
+    },
+    {
+        id: 'koebner_phenomenon',
+        title: 'Феномен Кебнера',
+        value: null
+    },
+    {
+        id: 'polygonal_papules',
+        title: 'Полигональные (ороговевшие) папулы',
+        value: null
+    },
+    {
+        id: 'follicular_papules',
+        title: 'Фолликулярные папулы',
+        value: null
+    },
+    {
+        id: 'oral_mucosal_involvement',
+        title: 'Поражение слизистой оболочки рта',
+        value: null
+    },
+    {
+        id: 'knee_and_elbow_involvement',
+        title: 'Высыпания на коленях и локтях',
+        value: null
+    },
+    {
+        id: 'scalp_involvement',
+        title: 'Поражение зоны роста волос',
+        value: null
+    },
 ]
 
 const rashImages = ["Определенные границы","Полигональные (ороговевшие) папулы", "Феномен Кебнера", "Фолликулярные папулы", "Эритема"]
 
 export default function Form() {
-    const [years] = useState([1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997])
-    const [simptomsValues] = useState(['Нет', 'Слабо выражено', 'Выражено', 'Сильно выражено'])
+    const router = useRouter()
+    const [years] = useState([{name: '1990', value: 1990},
+        {name: '1991', value: 1991},
+        {name: '1992', value: 1992},
+        {name: '1993', value: 1993},
+        {name: '1994', value: 1994},
+        {name: '1995', value: 1995},
+        {name: '1996', value: 1996},
+        {name: '1997', value: 1997},
+])
+    const [rashList, setRashList] = useState(rashArray)
+    const [simptomsValues] = useState([
+        {name: 'Нет', value: 0},
+        {name: 'Слабо выражено', value: 1},
+        {name: 'Выражено', value: 2},
+        {name: 'Сильно выражено', value: 3}
+    ])
     const [year, setYear] = useState(null)
-    const [simptom, setSimptom] = useState(rashArray.reduce((acc, item) => {
-        acc[item] = null
-        return acc
-    }, {}))
-    const [familyValues] = useState(['Да', 'Нет'])
-    const [family, setFamily] = useState(null)
 
-    const handleChange = (label, value) => {
-        setSimptom(prev => ({
-            ...prev,
-            [label]: value,
+    const [familyValues] = useState([{name: 'Да', value: 1},{name: 'Нет', value: 0} ])
+    const [family, setFamily] = useState(  {
+        id: 'family_history',
+        title: 'Имеются заболевания у членов семьи',
+        value: null
+    })
+    const [fName, setFName] = useState('')
+    const [lName, setLName] = useState('')
+    let userPhone = getCookie('phoneUser')
+
+
+    const handleChange = (id, value) => {
+        const currentRashList = rashList.map(item => ({
+            ...item,
+            value: item.id === id ? value : item.value
         }))
+        setRashList(currentRashList)
+    }
+    const handleChangeFamily = (item) => {
+        setFamily(prev => ({
+            ...prev,
+            value: item
+        }))
+    }
+
+    const handleClick = async () => {
+        let model = rashList.reduce((acc, item) => {
+            return {
+                ...acc,
+                [item.id]: item.value.value
+            }
+        }, {})
+        model.family_history = family.value.value
+        model.age = 2023 - year.value
+        const currentDate = new Date().toLocaleString()
+        const response = await getDiagnosisApi(model)
+        model = {...model, ...response, phone: userPhone, date: currentDate, fName: fName, lName: lName}
+        db.collection('ancets').add(model)
+        setTimeout(() => {
+            router.push(`/diagnosis/?date=${currentDate}`)
+        }, 3000)
     }
 
     return (
@@ -48,8 +144,8 @@ export default function Form() {
                         <div style={{padding: 20}}>
                             <h2 style={{textAlign: 'center', margin: 0}}>Данные</h2>
                             <div className={styles.formSection}>
-                                <InputField label="Имя" required helperText="Введите свое имя на Русском"/>
-                                <InputField label="Фамилия" required helperText="Введите свою фамилию на Русском"/>
+                                <InputField value={fName} handleChange={setFName} label="Имя" required helperText="Введите свое имя на Русском"/>
+                                <InputField value={lName} handleChange={setLName} label="Фамилия" required helperText="Введите свою фамилию на Русском"/>
                                 <SelectField options={years} value={year} handleChange={setYear} label='Год рождения'/>
                                 <FormControl style={{display: 'block'}} className={styles.inputWrapper}>
                                     <FormControlLabel control={<Checkbox />} label="Муж" />
@@ -66,20 +162,20 @@ export default function Form() {
                         <div className={styles.formSection}>
                             <div>
                                 {
-                                    rashArray.map(item => (
+                                    rashList.map(item => (
                                         <div style={{display: 'flex', alignItems: 'center', marginTop: 15}}>
                                             <SelectField
                                                 options={simptomsValues}
-                                                value={simptom[item]}
-                                                label={item}
-                                                handleChange={(value) => handleChange(item, value)}
+                                                value={item.value}
+                                                label={item.title}
+                                                handleChange={(value) => handleChange(item.id, value)}
                                             />
-                                            {rashImages.includes(item) &&
+                                            {rashImages.includes(item.title) &&
                                                 <div className={styles.question} style={{display: 'flex', alignItems: 'center'}}>
                                                     <IconButton aria-label="delete" size="large">
                                                         <QuestionMarkIcon />
                                                     </IconButton>
-                                                    <img src={`/rush/${item}.jpg`} alt=""/>
+                                                    <img src={`/rush/${item.title}.jpg`} alt=""/>
                                                 </div>
                                             }
                                         </div>
@@ -88,11 +184,19 @@ export default function Form() {
                                 <div style={{marginTop: 15}}>
                                     <SelectField
                                         options={familyValues}
-                                        value={family}
-                                        label="Имеются заболевания у членов семьи"
-                                        handleChange={setFamily}
+                                        value={family.value}
+                                        label={family.title}
+                                        handleChange={handleChangeFamily}
                                     />
                                 </div>
+                                <Button
+                                    fullWidth
+                                    variant="contained"
+                                    sx={{ mt: 3, mb: 2 }}
+                                    onClick={handleClick}
+                                >
+                                    Рассчитать
+                                </Button>
                             </div>
                         </div>
                     </Paper>
